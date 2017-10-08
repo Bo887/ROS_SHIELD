@@ -36,14 +36,6 @@
         android:layout_height="fill_parent">
 
         <Button
-            android:id="@+id/master_chooser_qr_code_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="qrCodeButtonClicked"
-            android:text="@string/qr_code"/>
-
-        <Button
             android:id="@+id/master_chooser_ok"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
@@ -52,15 +44,6 @@
             android:onClick="okButtonClicked"
             android:text="@string/use_master"/>
     </LinearLayout>
-
-    <CheckBox
-        android:id="@+id/advanced_checkBox"
-        style="@style/padded"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:checked="false"
-        android:onClick="advancedCheckboxClicked"
-        android:text="@string/show_advanced"/>
 
     <LinearLayout
         android:orientation="vertical"
@@ -84,30 +67,6 @@
             android:id="@+id/networkInterfaces"
             android:layout_weight="1"
             android:visibility="visible"/>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-
-            <Button
-                android:id="@+id/master_chooser_new_master_button"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:onClick="newMasterButtonClicked"
-                android:text="@string/new_master"
-                android:layout_weight="1"
-                android:visibility="visible"/>
-
-            <Button
-                android:id="@+id/master_chooser_new_private_master_button"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:onClick="newPrivateMasterButtonClicked"
-                android:text="@string/new_private_master"
-                android:layout_weight="1"
-                android:visibility="visible"/>
-
-        </LinearLayout>
 
     </LinearLayout>
 

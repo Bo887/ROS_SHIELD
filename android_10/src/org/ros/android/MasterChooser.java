@@ -308,7 +308,7 @@ public class MasterChooser extends AppCompatActivity {
           addRecentMasterURI(uri);
           // If the displayed URI is valid then pack that into the intent.
           // Package the intent to be consumed by the calling activity.
-          Intent intent = createNewMasterIntent(false, true);
+          Intent intent = createNewMasterIntent();
           setResult(RESULT_OK, intent);
           finish();
         } else {
@@ -328,68 +328,17 @@ public class MasterChooser extends AppCompatActivity {
     });
   }
 
-  public void qrCodeButtonClicked(View unused) {
-    Intent intent = new Intent(BAR_CODE_SCANNER_PACKAGE_NAME);
-    intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
-    // Check if the Barcode Scanner is installed.
-    if (!isQRCodeReaderInstalled(intent)) {
-      // Open the Market and take them to the page from which they can download the Barcode Scanner
-      // app.
-      startActivity(new Intent(Intent.ACTION_VIEW,
-          Uri.parse("market://details?id=com.google.zxing.client.android")));
-    } else {
-      // Call the Barcode Scanner to let the user scan a QR code.
-      startActivityForResult(intent, 0);
-    }
-  }
-
-  public void advancedCheckboxClicked(View view) {
-    boolean checked = ((CheckBox) view).isChecked();
-    LinearLayout advancedOptions = (LinearLayout) findViewById(R.id.advancedOptions);
-    if (checked) {
-      advancedOptions.setVisibility(View.VISIBLE);
-    } else {
-      advancedOptions.setVisibility(View.GONE);
-    }
-  }
-
-  public Intent createNewMasterIntent(boolean newMaster, boolean isPrivate) {
+  public Intent createNewMasterIntent() {
     Intent intent = new Intent();
     final String uri = uriText.getText().toString();
-    intent.putExtra("ROS_MASTER_CREATE_NEW", newMaster);
-    intent.putExtra("ROS_MASTER_PRIVATE", isPrivate);
     intent.putExtra("ROS_MASTER_URI", uri);
     intent.putExtra("ROS_MASTER_NETWORK_INTERFACE", selectedInterface);
     return intent;
   }
 
-  public void newMasterButtonClicked(View unused) {
-    setResult(RESULT_OK, createNewMasterIntent(true, false));
-    finish();
-  }
-
-  public void newPrivateMasterButtonClicked(View unused) {
-    setResult(RESULT_OK, createNewMasterIntent(true, true));
-    finish();
-  }
-
   public void cancelButtonClicked(View unused) {
     setResult(RESULT_CANCELED);
     finish();
-  }
-
-  /**
-   * Check if the specified app is installed.
-   * 
-   * @param intent
-   *          The activity that you wish to look for.
-   * @return true if the desired activity is install on the device, false
-   *         otherwise.
-   */
-  protected boolean isQRCodeReaderInstalled(Intent intent) {
-    List<ResolveInfo> list =
-        getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-    return (list.size() > 0);
   }
 
   /**
