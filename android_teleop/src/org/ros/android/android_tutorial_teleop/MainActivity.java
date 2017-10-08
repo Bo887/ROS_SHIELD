@@ -19,9 +19,6 @@ package org.ros.android.android_tutorial_teleop;
 import com.google.common.collect.Lists;
 
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import org.ros.address.InetAddressFactory;
 import org.ros.android.RosActivity;
 import org.ros.android.view.visualization.VisualizationView;
@@ -59,7 +56,6 @@ import android.util.Log;
  */
 public class MainActivity extends RosActivity {
 
-  //private VirtualJoystickView virtualJoystickView;
   private VisualizationView visualizationView;
 
   //The rosjava node which handles joystick events and publishes sensor_msgs/Joy
@@ -69,36 +65,11 @@ public class MainActivity extends RosActivity {
   public MainActivity() {
     super("Teleop", "Teleop");
   }
-/*
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    MenuInflater inflater = getMenuInflater();
-    inflater.inflate(R.menu.settings_menu, menu);
-    return true;
-  }
-/*
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    switch (item.getItemId()) {
-      case R.id.virtual_joystick_snap:
-        if (!item.isChecked()) {
-          item.setChecked(true);
-          virtualJoystickView.EnableSnapping();
-        } else {
-          item.setChecked(false);
-          virtualJoystickView.DisableSnapping();
-        }
-        return true;
-      default:
-        return super.onOptionsItemSelected(item);
-    }
-  }
-*/
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
-    //virtualJoystickView = (VirtualJoystickView) findViewById(R.id.virtual_joystick);
     visualizationView = (VisualizationView) findViewById(R.id.visualization);
     visualizationView.getCamera().jumpToFrame("map");
     visualizationView.onCreate(Lists.<Layer>newArrayList(new CameraControlLayer(),
@@ -189,7 +160,6 @@ public class MainActivity extends RosActivity {
                     getMasterUri());
     nodeConfiguration2.setNodeName("ShieldTeleop/JoystickNode");
 
-    //nodeMainExecutor.execute(virtualJoystickView, nodeConfiguration.setNodeName("virtual_joystick"));
     nodeMainExecutor.execute(visualizationView, nodeConfiguration.setNodeName("android/map_view"));
     nodeMainExecutor.execute(joystickHandler_, nodeConfiguration2);
   }
