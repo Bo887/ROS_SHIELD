@@ -88,7 +88,8 @@ public class MainActivity extends RosActivity {
   private void initializeJoystickHandlerIfPossibleAndNecessary(InputEvent event)
   /*************************************************************************/
   {
-    if ((!joystickHandler_.isInitialized()) && (event.getSource() & InputDevice.SOURCE_CLASS_JOYSTICK) != 0)
+    if ((!joystickHandler_.isInitialized()) && ((event.getSource() &
+            InputDevice.SOURCE_CLASS_BUTTON) != 0 || (event.getSource() & InputDevice.SOURCE_CLASS_JOYSTICK) != 0))
       joystickHandler_.initializeDevice(event.getDevice());
   }
 
