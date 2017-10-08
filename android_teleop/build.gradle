@@ -14,5 +14,20 @@
  * the License.
  */
 
-include "android_app"
-include "android_teleop"
+dependencies {
+  compile project(':android_app')
+}
+
+apply plugin: 'com.android.application'
+
+android {
+  compileSdkVersion 25
+
+  defaultConfig {
+    minSdkVersion 15
+    applicationId "org.ros.android.android_tutorial_teleop"
+    targetSdkVersion 15
+    versionCode 1
+    versionName "1.0"
+  }
+}
