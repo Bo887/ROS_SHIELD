@@ -257,14 +257,7 @@ public class MasterChooser extends AppCompatActivity {
     // Make sure the URI can be parsed correctly and that the master is
     // reachable.
     new AsyncTask<Void, Void, Boolean>() {
-      @Override
-      protected void onPreExecute() {
-        runOnUiThread(new Runnable() {
-          @Override
-          public void run() {
-          }
-        });
-      }
+      
       @Override
       protected Boolean doInBackground(Void... params) {
         try {
@@ -293,11 +286,6 @@ public class MasterChooser extends AppCompatActivity {
 
       @Override
       protected void onPostExecute(Boolean result) {
-        runOnUiThread(new Runnable() {
-          @Override
-          public void run() {
-          }
-        });
         if (result) {
           //Update Recent Master URI
           addRecentMasterURI(uri);
