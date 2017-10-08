@@ -21,15 +21,6 @@ import com.google.common.collect.Lists;
 import android.os.Bundle;
 import org.ros.address.InetAddressFactory;
 import org.ros.android.RosActivity;
-import org.ros.android.view.visualization.VisualizationView;
-import org.ros.android.view.visualization.layer.CameraControlLayer;
-import org.ros.android.view.visualization.layer.LaserScanLayer;
-import org.ros.android.view.visualization.layer.Layer;
-import org.ros.android.view.visualization.layer.OccupancyGridLayer;
-import org.ros.android.view.visualization.layer.PathLayer;
-import org.ros.android.view.visualization.layer.PosePublisherLayer;
-import org.ros.android.view.visualization.layer.PoseSubscriberLayer;
-import org.ros.android.view.visualization.layer.RobotLayer;
 import org.ros.node.NodeConfiguration;
 import org.ros.node.NodeMainExecutor;
 
@@ -56,8 +47,6 @@ import android.util.Log;
  */
 public class MainActivity extends RosActivity {
 
-  private VisualizationView visualizationView;
-
   //The rosjava node which handles joystick events and publishes sensor_msgs/Joy
   private JoystickNode joystickHandler_;
 
@@ -70,14 +59,6 @@ public class MainActivity extends RosActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
-    visualizationView = (VisualizationView) findViewById(R.id.visualization);
-    visualizationView.getCamera().jumpToFrame("map");
-    visualizationView.onCreate(Lists.<Layer>newArrayList(new CameraControlLayer(),
-            new OccupancyGridLayer("map"), new PathLayer("move_base/NavfnROS/plan"), new PathLayer(
-                    "move_base_dynamic/NavfnROS/plan"), new LaserScanLayer("base_scan"),
-            new PoseSubscriberLayer("simple_waypoints_server/goal_pose"), new PosePublisherLayer(
-                    "simple_waypoints_server/goal_pose"), new RobotLayer("base_footprint")));
-
     joystickHandler_ = new JoystickNode();
   }
 
@@ -150,18 +131,10 @@ public class MainActivity extends RosActivity {
 
   @Override
   protected void init(NodeMainExecutor nodeMainExecutor) {
-
-    visualizationView.init(nodeMainExecutor);
     NodeConfiguration nodeConfiguration =
             NodeConfiguration.newPublic(InetAddressFactory.newNonLoopback().getHostAddress(),
                     getMasterUri());
-
-    NodeConfiguration nodeConfiguration2 =
-            NodeConfiguration.newPublic(InetAddressFactory.newNonLoopback().getHostAddress(),
-                    getMasterUri());
-    nodeConfiguration2.setNodeName("ShieldTeleop/JoystickNode");
-
-    nodeMainExecutor.execute(visualizationView, nodeConfiguration.setNodeName("android/map_view"));
-    nodeMainExecutor.execute(joystickHandler_, nodeConfiguration2);
+    nodeConfiguration.setNodeName("ShieldTeleop/JoystickNode");
+    nodeMainExecutor.execute(joystickHandler_, nodeConfiguration);
   }
 }
